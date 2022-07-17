@@ -29,24 +29,11 @@ public class App {
 
             switch (rq.getPath()) {
                 case "목록":
-                    System.out.println("번호 / 작가 / 명언");
-                    System.out.println("----------------------");
-                    for (int i = wiseSayingList.size() - 1; i >= 0; i--) {
-                        WiseSaying wiseSaying = wiseSayingList.get(i);
-                        System.out.printf("%d / %s / %s\n", wiseSaying.getId(), wiseSaying.getContent(), wiseSaying.getAuthor());
-                    }
+                    list(rq);
 
                     break;
                 case "등록":
-                    System.out.print("명언 : ");
-                    String content = sc.nextLine();
-                    System.out.print("작가 : ");
-                    String author = sc.nextLine();
-
-                    int id = ++wiseSayingLastId;
-                    WiseSaying wiseSaying = new WiseSaying(id, content, author);
-                    wiseSayingList.add(wiseSaying);
-                    System.out.printf("%d번 명언이 등록되었습니다.\n", id);
+                    write(rq);
                     break;
                 case "수정":
                     modify(rq);
@@ -58,6 +45,27 @@ public class App {
                     break exit;
             }
         }
+    }
+
+    private void list(Rq rq) {
+        System.out.println("번호 / 작가 / 명언");
+        System.out.println("----------------------");
+        for (int i = wiseSayingList.size() - 1; i >= 0; i--) {
+            WiseSaying wiseSaying = wiseSayingList.get(i);
+            System.out.printf("%d / %s / %s\n", wiseSaying.getId(), wiseSaying.getContent(), wiseSaying.getAuthor());
+        }
+    }
+
+    private void write(Rq rq) {
+        System.out.print("명언 : ");
+        String content = sc.nextLine();
+        System.out.print("작가 : ");
+        String author = sc.nextLine();
+
+        int id = ++wiseSayingLastId;
+        WiseSaying wiseSaying = new WiseSaying(id, content, author);
+        wiseSayingList.add(wiseSaying);
+        System.out.printf("%d번 명언이 등록되었습니다.\n", id);
     }
 
     private void modify(Rq rq) {
