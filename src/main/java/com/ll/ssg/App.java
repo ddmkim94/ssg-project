@@ -6,11 +6,16 @@ import java.util.Scanner;
 
 public class App {
 
+    private static final String mode = "test";
     private final Scanner sc;
 
     // 주입! -> DI!
     public App(Scanner sc) {
         this.sc = sc;
+    }
+
+    public static String getBaseDir() {
+        return mode + "_data";
     }
 
     public void run() {
