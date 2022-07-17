@@ -11,7 +11,6 @@ public class WiseSayingController {
     private final Scanner sc;
     private final WiseSayingService wiseSayingService;
 
-
     public WiseSayingController(Scanner sc) {
         this.sc = sc;
         wiseSayingService = new WiseSayingService();

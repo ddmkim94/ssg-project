@@ -1,56 +1,35 @@
 package com.ll.ssg.service;
 
-import com.ll.ssg.Rq;
 import com.ll.ssg.WiseSaying;
+import com.ll.ssg.repository.WiseSayingRepository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class WiseSayingService {
 
-    private final List<WiseSaying> wiseSayingList;
-    private int wiseSayingLastId; // 계속 갱신되야 하는 숫자이기 때문에 final 키워드 no!
+    private final WiseSayingRepository wiseSayingRepository;
 
     public WiseSayingService() {
-        wiseSayingList = new ArrayList<>();
-        wiseSayingLastId = 0;
+        wiseSayingRepository = new WiseSayingRepository();
     }
 
-    // list() > findAll()
     public List<WiseSaying> findAll() {
-        return wiseSayingList;
+        return wiseSayingRepository.findAll();
     }
 
-    // write() > add()
     public WiseSaying add(String content, String author) {
-        int id = ++wiseSayingLastId;
-        WiseSaying wiseSaying = new WiseSaying(id, content, author);
-        wiseSayingList.add(wiseSaying);
-        return wiseSaying;
+        return wiseSayingRepository.add(content, author);
     }
 
-    // modify() > update()
     public void update(int id, String content, String author) {
-        WiseSaying wiseSaying = findById(id);
-        wiseSaying.setContent(content);
-        wiseSaying.setAuthor(author);
+        wiseSayingRepository.update(id, content, author);
     }
 
-    // remove() > delete()
     public void delete(int id) {
-        WiseSaying wiseSaying = findById(id);
-        wiseSayingList.remove(wiseSaying);
+        wiseSayingRepository.delete(id);
     }
 
-    // 번호로 명언 찾기
     public WiseSaying findById(int id) {
-        for (WiseSaying wiseSaying : wiseSayingList) {
-            if (wiseSaying.getId() == id) {
-                return wiseSaying;
-            }
-        }
-        return null;
+        return wiseSayingRepository.findById(id);
     }
-
 }
