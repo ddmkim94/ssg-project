@@ -43,6 +43,9 @@ public class App {
                 case "삭제":
                     wiseSayingController.remove(rq);
                     break;
+                case "빌드":
+                    wiseSayingController.build(rq);
+                    break;
                 case "종료":
                     break exit;
             }
