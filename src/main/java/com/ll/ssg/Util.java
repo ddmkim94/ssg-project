@@ -99,7 +99,7 @@ public class Util {
                         .map(Path::toFile)
                         .forEach(File::delete);
             } catch (IOException e) {
-
+                throw new RuntimeException(e);
             }
         }
 

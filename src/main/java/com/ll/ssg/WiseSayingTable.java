@@ -1,7 +1,10 @@
 package com.ll.ssg;
 
+import java.io.File;
+import java.util.Map;
+
 public class WiseSayingTable {
-    private final String baseDir;
+    private final String baseDir; // path: test_data
 
     public WiseSayingTable(String baseDir) {
         this.baseDir = baseDir;
@@ -9,7 +12,7 @@ public class WiseSayingTable {
 
     public void save(WiseSaying wiseSaying) {
         Util.file.mkdir("%s/wise_saying".formatted(baseDir));
-        String body = "내용";
+        String body = wiseSaying.toJson();
         Util.file.saveToFile("%s/wise_saying/%d.json".formatted(baseDir, wiseSaying.getId()), body);
     }
 
@@ -26,7 +29,7 @@ public class WiseSayingTable {
         Util.file.saveToFile("%s/wise_saying/last_id.txt".formatted(baseDir), id + "");
     }
 
-    private int getLastId() {
+    public int getLastId() {
         String lastId = Util.file.readFromFile("%s/wise_saying/last_id.txt".formatted(baseDir), "");
 
         if (lastId.isEmpty()) {
@@ -34,5 +37,21 @@ public class WiseSayingTable {
         }
 
         return Integer.parseInt(lastId);
+    }
+
+    public WiseSaying findById(int id) {
+        String path = "%s/wise_saying/%d.json".formatted(baseDir, id);
+
+        if (!new File(path).exists()) {
+            return null;
+        }
+
+        Map<String, Object> map = Util.json.jsonToMapFromFile(path);
+
+        if (map == null) {
+            return null;
+        }
+
+        return new WiseSaying((int) map.get("id"), (String) map.get("content"), (String) map.get("author"));
     }
 }
