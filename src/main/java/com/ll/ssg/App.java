@@ -48,6 +48,9 @@ public class App {
                     wiseSayingList.add(wiseSaying);
                     System.out.printf("%d번 명언이 등록되었습니다.\n", id);
                     break;
+                case "수정":
+                    modify(rq);
+                    break;
                 case "삭제":
                     remove(rq);
                     break;
@@ -57,12 +60,37 @@ public class App {
         }
     }
 
+    private void modify(Rq rq) {
+        int id = rq.getIntParam("id", 0);
+
+        if (id == 0) {
+            System.out.println("수정할 명언의 아이디를 입력해주세요");
+            return;
+        }
+
+        WiseSaying findWiseSaying = findById(id);
+        if (findWiseSaying == null) {
+            System.out.printf("%d번 명언은 존재하지 않습니다.\n", id);
+            return;
+        }
+
+        System.out.printf("명언(기존) : %s\n", findWiseSaying.getContent());
+        System.out.print("명언 : ");
+        findWiseSaying.setContent(sc.nextLine());
+
+        System.out.printf("작가(기존) : %s\n", findWiseSaying.getAuthor());
+        System.out.print("작가 : ");
+        findWiseSaying.setAuthor(sc.nextLine());
+
+        System.out.printf("%d번 명언이 수정되었습니다.\n", id);
+    }
+
     // 명언 삭제
     private void remove(Rq rq) {
         int id = rq.getIntParam("id", 0);
 
         if (id == 0) {
-            System.out.println("삭제 할 명언의 아이디를 입력해주세요");
+            System.out.println("삭제할 명언의 아이디를 입력해주세요");
             return;
         }
 
