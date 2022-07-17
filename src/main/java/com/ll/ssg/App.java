@@ -17,9 +17,15 @@ public class App {
         exit:
         while (true) {
             System.out.print("명령) ");
-            String command = sc.nextLine();
+            String command = sc.nextLine().trim();
 
             switch (command) {
+                case "등록":
+                    System.out.print("명언 : ");
+                    String content = sc.nextLine();
+                    System.out.print("작가 : ");
+                    String author = sc.nextLine();
+                    break;
                 case "종료":
                     break exit;
             }
