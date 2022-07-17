@@ -7,25 +7,27 @@ import java.util.Scanner;
 public class App {
 
     private Scanner sc;
+    int wiseSayingLastId;
     private List<WiseSaying> wiseSayingList;
 
     // 주입! -> DI!
     public App(Scanner sc) {
         this.sc = sc;
+        wiseSayingLastId = 0;
         wiseSayingList = new ArrayList<>();
     }
 
     public void run() {
         System.out.println("== 명언 SSG ==");
 
-        int wiseSayingLastId = 0;
-
         exit:
         while (true) {
             System.out.print("명령) ");
             String command = sc.nextLine().trim();
 
-            switch (command) {
+            Rq rq = new Rq(command);
+
+            switch (rq.getPath()) {
                 case "목록":
                     System.out.println("번호 / 작가 / 명언");
                     System.out.println("----------------------");
@@ -46,9 +48,41 @@ public class App {
                     wiseSayingList.add(wiseSaying);
                     System.out.printf("%d번 명언이 등록되었습니다.\n", id);
                     break;
+                case "삭제":
+                    remove(rq);
+                    break;
                 case "종료":
                     break exit;
             }
         }
+    }
+
+    // 명언 삭제
+    private void remove(Rq rq) {
+        int id = rq.getIntParam("id", 0);
+
+        if (id == 0) {
+            System.out.println("삭제 할 명언의 아이디를 입력해주세요");
+            return;
+        }
+
+        WiseSaying findWiseSaying = findById(id);
+        if (findWiseSaying == null) {
+            System.out.printf("%d번 명언은 존재하지 않습니다.\n", id);
+            return;
+        }
+
+        wiseSayingList.remove(findWiseSaying);
+        System.out.printf("%d번 명언이 삭제되었습니다.\n", id);
+    }
+
+    // 번호로 명언 찾기
+    private WiseSaying findById(int id) {
+        for (WiseSaying wiseSaying : wiseSayingList) {
+            if (wiseSaying.getId() == id) {
+                return wiseSaying;
+            }
+        }
+        return null;
     }
 }
